@@ -2,6 +2,7 @@ import datetime
 from os import system
 from time import sleep
 
+
 class TTACalculations:
     APPROX_ARRIVAL_DATETIME = datetime.datetime(2026, 5, 15, 17)
 
@@ -26,7 +27,7 @@ class TTACalculations:
         return self.time_to_arrival_datetime.seconds % 60
 
 
-class TAAStrings(TTACalculations):
+class TTAStrings(TTACalculations):
     TIME_TO_ARRIVAL_STRING = "Time to arrival: "
     DAYS = "Days"
     HOURS = "Hours"
@@ -62,7 +63,7 @@ class TAAStrings(TTACalculations):
                 f" {self.seconds_string}")
 
 
-class WhiskeyCountdown(TAAStrings):
+class WhiskeyCountdown(TTAStrings):
 
     @property
     def countdown_title_string(self):
@@ -94,6 +95,7 @@ class WhiskeyCountdown(TAAStrings):
 
 class EarlyWhiskeyCountdown(WhiskeyCountdown):
     APPROX_ARRIVAL_DATETIME = datetime.datetime(2026, 5, 14, 17)
+
 
 if __name__ == "__main__":
     whiskey_countdown = WhiskeyCountdown()
