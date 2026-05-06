@@ -1,0 +1,6 @@
+class FlaskAppInitializationError(Exception):
+    ...
+
+
+class InvalidProjectRootError(NotADirectoryError):
+    ...

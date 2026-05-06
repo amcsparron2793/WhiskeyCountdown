@@ -1,0 +1,18 @@
+<!--suppress HtmlRequiredLangAttribute -->
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css"
+              href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="stylesheet" type="text/css"
+              href="{{ url_for('static', filename='spin_the_bottle.css') }}">
+        <title>Whiskey Countdown</title>
+    </head>
+    <body data-seconds-remaining="{{ countdown.time_to_arrival_datetime.total_seconds() | int }}">
+        <h1>{{ countdown.countdown_title_string }}</h1>
+        <div id="countdown" class="countdown_text">
+            {{ countdown.countdown_string }}
+        </div>
+
+        <script src="{{ url_for('static', filename='count_down.js') }}"></script>
+    </body>
+</html>

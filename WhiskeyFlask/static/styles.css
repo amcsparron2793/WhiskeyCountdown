@@ -1,0 +1,38 @@
+h1 {
+    color: #daa520;
+    text-align: center;
+}
+
+.countdown_text {
+    text-align: center;
+    color: #daa520;
+    /*background-color: #f2f2f2;*/
+    font-weight: bolder;
+    font-size: 200%;
+}
+
+.err_text {
+    color: #ff0000;
+    background-color: #f2f2f2;
+    /*display: block;*/
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.explain_text {
+    text-align: center;
+    font-weight: bolder;
+}
+
+/* CSS to set the background image */
+body {
+    font-family: sans-serif;
+    margin: 10px;
+    overflow-x: hidden;
+    /*background-image: url('Whiskey.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center; */
+}
