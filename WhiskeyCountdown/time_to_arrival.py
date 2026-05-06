@@ -49,13 +49,13 @@ class TTAStrings(TTACalculations):
         return f"{self.time_to_arrival_seconds} {self.__class__.SECONDS}"
 
     def _days_left_string(self):
-        return (f"{self.TIME_TO_ARRIVAL_STRING}{self.days_string}, "
+        return (f"{self.__class__.TIME_TO_ARRIVAL_STRING}{self.days_string}, "
                 f"{self.hours_string}, {self.minutes_string}, {self.seconds_string}")
 
     def _no_days_left_string(self):
-        return (f"{self.TIME_TO_ARRIVAL_STRING}{self.hours_string},"
+        return (f"{self.__class__.TIME_TO_ARRIVAL_STRING}{self.hours_string},"
                 f" {self.minutes_string}, {self.seconds_string}")
 
     def _no_hours_left_string(self):
-        return (f"{self.TIME_TO_ARRIVAL_STRING}{self.minutes_string},"
+        return (f"{self.__class__.TIME_TO_ARRIVAL_STRING}{self.minutes_string},"
                 f" {self.seconds_string}")

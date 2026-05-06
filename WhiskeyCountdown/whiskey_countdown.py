@@ -9,7 +9,11 @@ class WhiskeyCountdown(TTAStrings):
 
     @property
     def countdown_title_string(self):
-        return f"Counting down to {self.__class__.APPROX_ARRIVAL_DATETIME.ctime()}"
+        tta_string = (self.__class__.TIME_TO_ARRIVAL_STRING[:-2]
+                      if self.__class__.TIME_TO_ARRIVAL_STRING.strip().endswith(':')
+                      else self.__class__.TIME_TO_ARRIVAL_STRING)
+        return (f"Counting down to {self.__class__.APPROX_ARRIVAL_DATETIME.ctime()} "
+                f"({tta_string})")
 
     @property
     def final_countdown_string(self):
@@ -37,6 +41,7 @@ class WhiskeyCountdown(TTAStrings):
 
 class EarlyWhiskeyCountdown(WhiskeyCountdown):
     APPROX_ARRIVAL_DATETIME = datetime.datetime(2026, 5, 14, 17)
+    TIME_TO_ARRIVAL_STRING = "Time to EARLY arrival: "
 
 
 if __name__ == "__main__":
