@@ -3,7 +3,7 @@ from os import system
 from time import sleep
 
 from WhiskeyCountdown import TTAStrings
-from WhiskeyFlask import WhiskeyFlask, WhiskeyFlaskCountdown
+from WhiskeyFlask import WhiskeyFlaskCountdown
 
 
 class WhiskeyCountdown(TTAStrings):

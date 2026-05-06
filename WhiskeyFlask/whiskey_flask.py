@@ -9,7 +9,7 @@ from WhiskeyFlask import _WhiskeyCli, WhiskeyInitializer, WhiskeyCountdownInitia
 class WhiskeyFlask(WhiskeyInitializer, _WhiskeyCli):
     TEST_DEFAULT_HOST = '127.0.0.1'
     DEFAULT_HOST = '127.0.0.1'
-    DEFAULT_PORT = 8000
+    DEFAULT_PORT = 5000
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
