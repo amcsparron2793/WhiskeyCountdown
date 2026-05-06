@@ -156,3 +156,15 @@ class WhiskeyInitializer:
         self.app = Flask(self.app_name)
         self._initialize_app()
         return self.app
+
+
+class WhiskeyCountdownInitializer(WhiskeyInitializer):
+    def __init__(self, countdown_class, **kwargs):
+        self.countdown_class = countdown_class
+        super().__init__(**kwargs)
+
+    def _initialize_pages(self, **kwargs):
+        kwargs.setdefault('debug', self.debug_mode)
+        kwargs.setdefault('countdown_class', self.countdown_class)
+        home_page = HomePage(**kwargs)
+        return home_page

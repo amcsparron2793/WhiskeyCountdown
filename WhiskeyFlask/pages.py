@@ -13,8 +13,10 @@ class HomePage:
         # filename only since flask will look for templates
         # in the templates folder (normally the package root/templates).
         self.home_page_filename = kwargs.get('home_page_filename', self.__class__.DEFAULT_HOME_PAGE_FILENAME)
+        self.countdown_class = kwargs.get('countdown_class')
         self.logger.info(f'home page filename set to {self.home_page_filename}')
 
     def get(self):
         self.logger.debug(f'rendering template {self.home_page_filename}')
-        return render_template(self.home_page_filename)
+        countdown = self.countdown_class()
+        return render_template(self.home_page_filename, countdown=countdown)

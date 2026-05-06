@@ -1,8 +1,8 @@
-from FlaskRedirectPage.flask_redirect_page import QuickRedirect
+from WhiskeyFlask import WhiskeyFlaskCountdown
 
 
 def main():
-    srv = QuickRedirect.from_cli()
+    srv = WhiskeyFlaskCountdown.from_cli()
     srv.logger.debug('running from __main__.py')
     srv.run()
 

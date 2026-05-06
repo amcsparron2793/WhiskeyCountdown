@@ -3,7 +3,7 @@ whiskey_flask.py
 
 """
 
-from WhiskeyFlask import _WhiskeyCli, WhiskeyInitializer
+from WhiskeyFlask import _WhiskeyCli, WhiskeyInitializer, WhiskeyCountdownInitializer
 
 
 class WhiskeyFlask(WhiskeyInitializer, _WhiskeyCli):
@@ -40,6 +40,10 @@ class WhiskeyFlask(WhiskeyInitializer, _WhiskeyCli):
         kwargs.setdefault('debug', self.debug_mode)
         self.logger.info(f'Running {self.app.name} on {self.host}:{self.port}')
         self.app.run(*args, **kwargs)
+
+
+class WhiskeyFlaskCountdown(WhiskeyCountdownInitializer, WhiskeyFlask):
+    ...
 
 
 if __name__ == '__main__':
