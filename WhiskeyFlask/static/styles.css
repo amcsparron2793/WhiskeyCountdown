@@ -3,6 +3,14 @@ h1 {
     text-align: center;
 }
 
+.countdown_text {
+    text-align: center;
+    color: #daa520;
+    /*background-color: #f2f2f2;*/
+    font-weight: bolder;
+    font-size: 200%;
+}
+
 .err_text {
     color: #ff0000;
     background-color: #f2f2f2;
@@ -20,8 +28,8 @@ h1 {
 }
 /* CSS to set the background image */
 body {
-    font-family: sans-serif; margin: 2rem;
-    background-image: url('AlbanyLogo.png'); /* Path to the image */
+    font-family: sans-serif;
+    background-image: url('Whiskey.png'); /* Path to the image */
     background-repeat: no-repeat;          /* Prevents repeated tiling of the image */
     background-size: auto;
     background-position-x: center;           /* Centers the image */
