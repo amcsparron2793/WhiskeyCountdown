@@ -2,7 +2,7 @@
 whiskey_flask.py
 
 """
-
+from WhiskeyCountdown import WhiskeyCountdown
 from WhiskeyFlask import _WhiskeyCli, WhiskeyInitializer, WhiskeyCountdownInitializer
 
 
@@ -47,5 +47,5 @@ class WhiskeyFlaskCountdown(WhiskeyCountdownInitializer, WhiskeyFlask):
 
 
 if __name__ == '__main__':
-    qr_app = WhiskeyFlask(debug=True)
-    qr_app.run()
+    wfc = WhiskeyFlaskCountdown(countdown_class=WhiskeyCountdown)
+    wfc.run()
