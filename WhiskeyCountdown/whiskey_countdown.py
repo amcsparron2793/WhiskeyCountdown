@@ -3,6 +3,7 @@ from os import system
 from time import sleep
 
 from WhiskeyCountdown import TTAStrings
+from WhiskeyFlask import WhiskeyFlask
 
 
 class WhiskeyCountdown(TTAStrings):
@@ -45,5 +46,7 @@ class EarlyWhiskeyCountdown(WhiskeyCountdown):
 
 
 if __name__ == "__main__":
-    whiskey_countdown = WhiskeyCountdown()
-    whiskey_countdown.run_countdown_timer()
+    wf = WhiskeyFlask(debug=True)
+    wf.run()
+    #whiskey_countdown = WhiskeyCountdown()
+    #whiskey_countdown.run_countdown_timer()
