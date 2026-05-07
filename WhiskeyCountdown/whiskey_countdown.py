@@ -2,10 +2,10 @@ import datetime
 from os import system
 from time import sleep
 
-from WhiskeyCountdown import TTAStrings, _WhiskeyCli, WhiskeyInitializer
+from WhiskeyCountdown import TTStrings, _WhiskeyCli, WhiskeyInitializer
 
 
-class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTAStrings):
+class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTStrings):
 
     @classmethod
     def from_cli(cls):
@@ -22,11 +22,11 @@ class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTAStrings):
 
     @property
     def countdown_title_string(self):
-        tta_string = (self.__class__.TIME_TO_ARRIVAL_STRING[:-2]
-                      if self.__class__.TIME_TO_ARRIVAL_STRING.strip().endswith(':')
-                      else self.__class__.TIME_TO_ARRIVAL_STRING)
-        return (f"Counting down to {self.__class__.APPROX_ARRIVAL_DATETIME.ctime()} "
-                f"({tta_string})")
+        tt_string = (self.__class__.TIME_TO_STRING[:-2]
+                     if self.__class__.TIME_TO_STRING.strip().endswith(':')
+                     else self.__class__.TIME_TO_STRING)
+        return (f"Counting down to {self.__class__.APPROX_DATETIME.ctime()} "
+                f"({tt_string})")
 
     @property
     def final_countdown_string(self):
@@ -35,9 +35,9 @@ class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTAStrings):
 
     @property
     def countdown_string(self):
-        if self.time_to_arrival_days == 0:
+        if self.time_to_days == 0:
             return self._no_days_left_string()
-        elif self.time_to_arrival_hours == 0:
+        elif self.time_to_hours == 0:
             return self._no_hours_left_string()
         else:
             return self._days_left_string()
@@ -53,8 +53,8 @@ class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTAStrings):
 
 
 class EarlyWhiskeyCountdown(WhiskeyCountdown):
-    APPROX_ARRIVAL_DATETIME = datetime.datetime(2026, 5, 14, 17)
-    TIME_TO_ARRIVAL_STRING = "Time to EARLY arrival: "
+    APPROX_DATETIME = datetime.datetime(2026, 5, 14, 17)
+    TIME_TO_STRING = "Time to EARLY arrival: "
 
 
 if __name__ == "__main__":
