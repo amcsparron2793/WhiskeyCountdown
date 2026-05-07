@@ -7,6 +7,19 @@ from WhiskeyCountdown import TTAStrings, _WhiskeyCli, WhiskeyInitializer
 
 class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTAStrings):
 
+    @classmethod
+    def from_cli(cls):
+        args = cls._parse_args()
+        return cls._initialize_countdown_class(early_arrival=args.early_arrival, debug=args.debug)
+
+    @classmethod
+    def _initialize_countdown_class(cls, **kwargs):
+        early_arrival = kwargs.get('early_arrival', False)
+        if early_arrival:
+            return EarlyWhiskeyCountdown(**kwargs)
+        else:
+            return cls(**kwargs)
+
     @property
     def countdown_title_string(self):
         tta_string = (self.__class__.TIME_TO_ARRIVAL_STRING[:-2]

@@ -124,7 +124,7 @@ class WhiskeyFlaskInitializer(WhiskeyInitializer):
         return self.app
 
 
-class WhiskeyCountdownInitializer(WhiskeyFlaskInitializer):
+class WhiskeyFlaskCountdownInitializer(WhiskeyFlaskInitializer):
     def __init__(self, countdown_class, **kwargs):
         self.countdown_class = countdown_class
         super().__init__(**kwargs)

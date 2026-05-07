@@ -3,7 +3,7 @@ whiskey_flask.py
 
 """
 from WhiskeyCountdown import WhiskeyCountdown, EarlyWhiskeyCountdown
-from WhiskeyFlask import _WhiskeyFlaskCli, WhiskeyFlaskInitializer, WhiskeyCountdownInitializer
+from WhiskeyFlask import _WhiskeyFlaskCli, WhiskeyFlaskInitializer, WhiskeyFlaskCountdownInitializer
 
 
 class WhiskeyFlask(WhiskeyFlaskInitializer, _WhiskeyFlaskCli):
@@ -42,7 +42,7 @@ class WhiskeyFlask(WhiskeyFlaskInitializer, _WhiskeyFlaskCli):
         self.app.run(*args, **kwargs)
 
 
-class WhiskeyFlaskCountdown(WhiskeyCountdownInitializer, WhiskeyFlask):
+class WhiskeyFlaskCountdown(WhiskeyFlaskCountdownInitializer, WhiskeyFlask):
     def __init__(self, **kwargs):
         self.countdown_class = kwargs.get('countdown_class', None)
         self.early_arrival = kwargs.get('early_arrival', False)

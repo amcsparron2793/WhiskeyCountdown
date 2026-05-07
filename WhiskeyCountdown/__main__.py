@@ -2,7 +2,7 @@ from WhiskeyCountdown import WhiskeyCountdown
 
 
 def main():
-    countdown = WhiskeyCountdown()
+    countdown = WhiskeyCountdown().from_cli()
     countdown.run_countdown_timer()
 
 
