@@ -2,11 +2,18 @@ import datetime
 
 
 class TTCalculations:
-    APPROX_DATETIME = datetime.datetime(2026, 5, 15, 17)
+    YEAR = 2026
+    MONTH = 5
+    DAY = 15
+    HOUR = 17
+
+    @classmethod
+    def _get_approx_datetime(cls):
+        return datetime.datetime(cls.YEAR, cls.MONTH, cls.DAY, cls.HOUR)
 
     @property
     def time_to_datetime(self) -> datetime.timedelta:
-        return self.__class__.APPROX_DATETIME - datetime.datetime.now()
+        return self._get_approx_datetime() - datetime.datetime.now()
 
     @property
     def time_to_days(self) -> int:

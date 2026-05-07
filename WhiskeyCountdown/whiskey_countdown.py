@@ -25,7 +25,7 @@ class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTStrings):
         tt_string = (self.__class__.TIME_TO_STRING[:-2]
                      if self.__class__.TIME_TO_STRING.strip().endswith(':')
                      else self.__class__.TIME_TO_STRING)
-        return (f"Counting down to {self.__class__.APPROX_DATETIME.ctime()} "
+        return (f"Counting down to {self._get_approx_datetime().ctime()} "
                 f"({tt_string})")
 
     @property
@@ -53,8 +53,27 @@ class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTStrings):
 
 
 class EarlyWhiskeyCountdown(WhiskeyCountdown):
-    APPROX_DATETIME = datetime.datetime(2026, 5, 14, 17)
+    DAY = 14
     TIME_TO_STRING = "Time to EARLY arrival: "
+
+
+class WhiskeyLeaveTime(WhiskeyCountdown):
+    HOUR = 3
+    TIME_TO_STRING = "Time to leave: "
+
+    @classmethod
+    def _initialize_countdown_class(cls, **kwargs):
+        early_leave = kwargs.get('early_leave', False)
+        if early_leave:
+            return WhiskeyEarlyLeaveTime(**kwargs)
+        else:
+            return cls(**kwargs)
+
+
+class WhiskeyEarlyLeaveTime(WhiskeyLeaveTime):
+    DAY = 14
+    HOUR = 3
+    TIME_TO_STRING = "Time to EARLY leave: "
 
 
 if __name__ == "__main__":
