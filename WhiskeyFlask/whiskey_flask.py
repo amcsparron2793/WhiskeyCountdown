@@ -4,10 +4,10 @@ whiskey_flask.py
 """
 from WhiskeyCountdown import WhiskeyCountdown
 from WhiskeyCountdown.whiskey_countdown import EarlyWhiskeyCountdown
-from WhiskeyFlask import _WhiskeyCli, WhiskeyInitializer, WhiskeyCountdownInitializer
+from WhiskeyFlask import _WhiskeyFlaskCli, WhiskeyInitializer, WhiskeyCountdownInitializer
 
 
-class WhiskeyFlask(WhiskeyInitializer, _WhiskeyCli):
+class WhiskeyFlask(WhiskeyInitializer, _WhiskeyFlaskCli):
     TEST_DEFAULT_HOST = '127.0.0.1'
     DEFAULT_HOST = '127.0.0.1'
     DEFAULT_PORT = 5000

@@ -2,10 +2,10 @@ import datetime
 from os import system
 from time import sleep
 
-from WhiskeyCountdown import TTAStrings
+from WhiskeyCountdown import TTAStrings, _WhiskeyCli
 
 
-class WhiskeyCountdown(TTAStrings):
+class WhiskeyCountdown(_WhiskeyCli, TTAStrings):
 
     @property
     def countdown_title_string(self):

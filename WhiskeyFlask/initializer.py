@@ -6,24 +6,19 @@ from typing import Union
 from flask import Flask
 from jinja2 import TemplateNotFound
 
+from WhiskeyCountdown import _WhiskeyCli
 from WhiskeyFlask import (DEFAULT_FLASK_APP_NAME, DEFAULT_PROJECT_ROOT,
                           WhiskeyLogger, WerkzeugLogger,
                           HomePage, ErrorHandlers,
                           FlaskAppInitializationError, InvalidProjectRootError)
 
 
-class _WhiskeyCli:
+class _WhiskeyFlaskCli(_WhiskeyCli):
     DEFAULT_HOST = None
     DEFAULT_PORT = None
     TEST_DEFAULT_HOST = None
     MANDATORY_ATTRS = ['DEFAULT_HOST', 'DEFAULT_PORT', 'TEST_DEFAULT_HOST']
-
-    def __init__(self, **kwargs):
-        self.logger = WhiskeyLogger(**kwargs)()
-        kwargs.setdefault('logger', self.logger)
-        super().__init__(**kwargs)
-        self.logger.name = self.__class__.__name__
-        self.logger.info('Initializing _WhiskeyCli instance')
+    DEFAULT_ARG_PARSE_DESCRIPTION = "Run the Whiskey Countdown Page"
 
     def __init_subclass__(cls, **kwargs):
         missing_attrs = [x for x in cls.MANDATORY_ATTRS if not getattr(cls, x)]
@@ -43,8 +38,8 @@ class _WhiskeyCli:
                           or host == cls.DEFAULT_HOST)
 
     @classmethod
-    def _parse_args(cls):
-        parser = argparse.ArgumentParser(description="Run the Whiskey Countdown Page")
+    def _init_parser(cls, **kwargs):
+        parser = super()._init_parser(**kwargs)
         parser.add_argument(
             "-H",
             "--host",
@@ -58,19 +53,7 @@ class _WhiskeyCli:
             default=cls.DEFAULT_PORT,
             help=f"Port to listen on (default: {cls.DEFAULT_PORT})",
         )
-        parser.add_argument(
-            "-e",
-            "--early_arrival",
-            action="store_true",
-            help="Use Early Arrival Countdown",
-        )
-        parser.add_argument(
-            "-d",
-            "--debug",
-            action="store_true",
-            help="Enable debug mode",
-        )
-        return parser.parse_args()
+        return parser
 
 
 class WhiskeyInitializer:
