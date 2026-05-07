@@ -4,11 +4,10 @@ from re import sub
 from logging import Logger, getLogger, INFO, Formatter, LogRecord
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Union
 
 from EasyLoggerAJM.easy_logger import EasyLogger
 
-from WhiskeyFlask import DEFAULT_FLASK_APP_NAME, DEFAULT_PROJECT_ROOT
+from WhiskeyCountdown import WhiskeyLogger
 
 
 class WerkzeugFileFormatter(Formatter):
@@ -62,20 +61,6 @@ class WerkzeugFileFormatter(Formatter):
         filtered_msg_list = filter(lambda x: x in string.printable and x.isprintable(),
                                    self._remove_ansi_escape_sequences(msg))
         return ''.join(filtered_msg_list)
-
-
-class WhiskeyLogger(EasyLogger):
-    DEFAULT_LOG_SPEC = 'hourly'
-    _PROJECT_NAME = ''.join([x.capitalize() for x in DEFAULT_FLASK_APP_NAME.split('_')])
-    ROOT_LOG_LOCATION_DEFAULT = Path(DEFAULT_PROJECT_ROOT.parent, 'logs')
-
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('log_spec', self.__class__.DEFAULT_LOG_SPEC)
-        kwargs.setdefault('show_warning_logs_in_console', True)
-        super().__init__(*args, **kwargs)
-
-    def __call__(self) -> Logger:
-        return self.logger
 
 
 class WerkzeugLogger(EasyLogger):

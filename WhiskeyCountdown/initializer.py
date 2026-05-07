@@ -1,17 +1,16 @@
 import argparse
 
-# FIXME: make WhiskeyLogger a part of WhiskeyCountdown - leave Werkzug logger in WhiskeyFlask
-#from WhiskeyFlask.whiskey_logger import WhiskeyLogger
+from WhiskeyCountdown import WhiskeyLogger
 
 
 class _WhiskeyCli:
     DEFAULT_ARG_PARSE_DESCRIPTION = 'Run Whiskey Countdown'
 
     def __init__(self, **kwargs):
-        # self.logger = WhiskeyLogger(**kwargs)()
-        # kwargs.setdefault('logger', self.logger)
-        # self.logger.name = self.__class__.__name__
-        # self.logger.info(f'Initializing {self.__class__.__name__} instance')
+        self.logger = kwargs.get('logger', WhiskeyLogger(**kwargs)())
+        kwargs.setdefault('logger', self.logger)
+        self.logger.name = self.__class__.__name__
+        self.logger.info(f'Initializing {self.__class__.__name__} instance')
         self.early_arrival = kwargs.get('early_arrival', False)
 
     @classmethod

@@ -1,4 +1,3 @@
-import argparse
 from pathlib import Path
 from os import chdir
 from typing import Union
@@ -6,11 +5,13 @@ from typing import Union
 from flask import Flask
 from jinja2 import TemplateNotFound
 
-from WhiskeyCountdown import _WhiskeyCli
-from WhiskeyFlask import (DEFAULT_FLASK_APP_NAME, DEFAULT_PROJECT_ROOT,
-                          WhiskeyLogger, WerkzeugLogger,
+# noinspection PyProtectedMember
+from WhiskeyCountdown import DEFAULT_PROJECT_ROOT, _WhiskeyCli
+from WhiskeyFlask import (DEFAULT_FLASK_APP_NAME,
+                          WerkzeugLogger,
                           HomePage, ErrorHandlers,
                           FlaskAppInitializationError, InvalidProjectRootError)
+from WhiskeyCountdown import WhiskeyLogger
 
 
 class _WhiskeyFlaskCli(_WhiskeyCli):
