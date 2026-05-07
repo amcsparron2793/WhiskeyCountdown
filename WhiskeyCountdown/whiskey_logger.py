@@ -7,8 +7,8 @@ from WhiskeyCountdown import DEFAULT_PROJECT_ROOT
 
 class WhiskeyLogger(EasyLogger):
     DEFAULT_LOG_SPEC = 'hourly'
-    _PROJECT_NAME = DEFAULT_PROJECT_ROOT.parent.name #''.join([x.capitalize() for x in DEFAULT_FLASK_APP_NAME.split('_')])
-    ROOT_LOG_LOCATION_DEFAULT = Path(DEFAULT_PROJECT_ROOT.parent, 'logs')
+    _PROJECT_NAME = DEFAULT_PROJECT_ROOT.name
+    ROOT_LOG_LOCATION_DEFAULT = Path(DEFAULT_PROJECT_ROOT, 'logs')
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('log_spec', self.__class__.DEFAULT_LOG_SPEC)

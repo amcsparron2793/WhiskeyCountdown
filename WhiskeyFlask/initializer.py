@@ -8,10 +8,10 @@ from jinja2 import TemplateNotFound
 # noinspection PyProtectedMember
 from WhiskeyCountdown import DEFAULT_PROJECT_ROOT, _WhiskeyCli
 from WhiskeyFlask import (DEFAULT_FLASK_APP_NAME,
+                          WhiskeyFlaskLogger,
                           WerkzeugLogger,
                           HomePage, ErrorHandlers,
                           FlaskAppInitializationError, InvalidProjectRootError)
-from WhiskeyCountdown import WhiskeyLogger
 
 
 class _WhiskeyFlaskCli(_WhiskeyCli):
@@ -64,7 +64,7 @@ class WhiskeyInitializer:
         self._project_root = None
 
         self.werkzeug_logger = kwargs.get('werkzeug_logger', WerkzeugLogger()())
-        self.logger = kwargs.get('logger', WhiskeyLogger(**kwargs)())
+        self.logger = kwargs.get('logger', WhiskeyFlaskLogger(**kwargs)())
         kwargs.setdefault('logger', self.logger)
         self.logger.name = self.__class__.__name__
         self.logger.debug(f'logger name set to {self.logger.name}')
@@ -72,7 +72,11 @@ class WhiskeyInitializer:
         self._app_initialized = False
         self.debug_mode = kwargs.get('debug', False)
         self.app_name = kwargs.get('app_name', self.__class__.DEFAULT_APP_NAME)
+
         self.project_root = kwargs.get('project_root', DEFAULT_PROJECT_ROOT)
+        self.resource_root = kwargs.get('resource_root',
+                                        Path(self.project_root / 'WhiskeyFlask'))
+
         self.logger.info(f'project root set to {self.project_root} with debug mode set to {self.debug_mode}')
 
         self.home_page, self.error_handlers = self._app_pre_init(**kwargs)
@@ -143,7 +147,9 @@ class WhiskeyInitializer:
             self._app_initialized = True
 
     def start_app(self):
-        self.app = Flask(self.app_name)
+        self.app = Flask(self.app_name,
+                         static_folder=Path(self.resource_root, 'static'),
+                         template_folder=Path(self.resource_root, 'templates'))
         self._initialize_app()
         return self.app
 

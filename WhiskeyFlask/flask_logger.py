@@ -8,6 +8,11 @@ from pathlib import Path
 from EasyLoggerAJM.easy_logger import EasyLogger
 
 from WhiskeyCountdown import WhiskeyLogger
+from WhiskeyFlask import DEFAULT_FLASK_APP_NAME
+
+
+class WhiskeyFlaskLogger(WhiskeyLogger):
+    _PROJECT_NAME = ''.join([x.capitalize() for x in DEFAULT_FLASK_APP_NAME.split('_')])
 
 
 class WerkzeugFileFormatter(Formatter):

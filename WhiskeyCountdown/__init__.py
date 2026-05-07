@@ -1,6 +1,6 @@
 from pathlib import Path
 
-DEFAULT_PROJECT_ROOT = Path(__file__).parent
+DEFAULT_PROJECT_ROOT = Path(__file__).parent.parent
 
 from WhiskeyCountdown.whiskey_logger import WhiskeyLogger
 from WhiskeyCountdown.initializer import _WhiskeyCli
