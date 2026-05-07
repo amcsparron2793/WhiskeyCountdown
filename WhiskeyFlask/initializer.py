@@ -1,29 +1,23 @@
-import argparse
 from pathlib import Path
-from os import chdir
-from typing import Union
 
 from flask import Flask
 from jinja2 import TemplateNotFound
 
-from WhiskeyFlask import (DEFAULT_FLASK_APP_NAME, DEFAULT_PROJECT_ROOT,
-                          WhiskeyLogger, WerkzeugLogger,
+# noinspection PyProtectedMember
+from WhiskeyCountdown import _WhiskeyCli, WhiskeyInitializer
+from WhiskeyFlask import (DEFAULT_FLASK_APP_NAME,
+                          WhiskeyFlaskLogger,
+                          WerkzeugLogger,
                           HomePage, ErrorHandlers,
-                          FlaskAppInitializationError, InvalidProjectRootError)
+                          FlaskAppInitializationError)
 
 
-class _WhiskeyCli:
+class _WhiskeyFlaskCli(_WhiskeyCli):
     DEFAULT_HOST = None
     DEFAULT_PORT = None
     TEST_DEFAULT_HOST = None
     MANDATORY_ATTRS = ['DEFAULT_HOST', 'DEFAULT_PORT', 'TEST_DEFAULT_HOST']
-
-    def __init__(self, **kwargs):
-        self.logger = WhiskeyLogger(**kwargs)()
-        kwargs.setdefault('logger', self.logger)
-        super().__init__(**kwargs)
-        self.logger.name = self.__class__.__name__
-        self.logger.info('Initializing _WhiskeyCli instance')
+    DEFAULT_ARG_PARSE_DESCRIPTION = "Run the Whiskey Countdown Page"
 
     def __init_subclass__(cls, **kwargs):
         missing_attrs = [x for x in cls.MANDATORY_ATTRS if not getattr(cls, x)]
@@ -43,8 +37,8 @@ class _WhiskeyCli:
                           or host == cls.DEFAULT_HOST)
 
     @classmethod
-    def _parse_args(cls):
-        parser = argparse.ArgumentParser(description="Run the Whiskey Countdown Page")
+    def _init_parser(cls, **kwargs):
+        parser = super()._init_parser(**kwargs)
         parser.add_argument(
             "-H",
             "--host",
@@ -58,32 +52,25 @@ class _WhiskeyCli:
             default=cls.DEFAULT_PORT,
             help=f"Port to listen on (default: {cls.DEFAULT_PORT})",
         )
-        parser.add_argument(
-            "-d",
-            "--debug",
-            action="store_true",
-            help="Enable debug mode",
-        )
-        return parser.parse_args()
+        return parser
 
 
-class WhiskeyInitializer:
+class WhiskeyFlaskInitializer(WhiskeyInitializer):
     DEFAULT_APP_NAME = DEFAULT_FLASK_APP_NAME
 
     def __init__(self, **kwargs):
-        self._project_root = None
-
-        self.werkzeug_logger = kwargs.get('werkzeug_logger', WerkzeugLogger()())
-        self.logger = kwargs.get('logger', WhiskeyLogger(**kwargs)())
+        self.logger = kwargs.get('logger', WhiskeyFlaskLogger(**kwargs)())
         kwargs.setdefault('logger', self.logger)
+        super().__init__(**kwargs)
+        self.werkzeug_logger = kwargs.get('werkzeug_logger', WerkzeugLogger()())
         self.logger.name = self.__class__.__name__
         self.logger.debug(f'logger name set to {self.logger.name}')
 
         self._app_initialized = False
-        self.debug_mode = kwargs.get('debug', False)
         self.app_name = kwargs.get('app_name', self.__class__.DEFAULT_APP_NAME)
-        self.project_root = kwargs.get('project_root', DEFAULT_PROJECT_ROOT)
-        self.logger.info(f'project root set to {self.project_root} with debug mode set to {self.debug_mode}')
+
+        self.resource_root = kwargs.get('resource_root',
+                                        Path(self.project_root / 'WhiskeyFlask'))
 
         self.home_page, self.error_handlers = self._app_pre_init(**kwargs)
 
@@ -123,29 +110,6 @@ class WhiskeyInitializer:
             raise FlaskAppInitializationError("App already initialized. Cannot initialize again.")
         return True
 
-    def _validate_project_root(self, value: Union[str, Path]) -> Path:
-        if Path(value).is_dir():
-            return Path(value)
-        else:
-            try:
-                raise InvalidProjectRootError(
-                    f"Invalid project root: {value}. "
-                    f"Must be a valid directory path.")
-            except InvalidProjectRootError as e:
-                self.logger.error(e)
-                raise e
-
-    @property
-    def project_root(self):
-        return self._project_root
-
-    @project_root.setter
-    def project_root(self, value):
-        self._project_root = self._validate_project_root(value)
-        if Path('./') != self._project_root:
-            self.logger.warning(f'changing working directory to {self._project_root}')
-            chdir(self._project_root)
-
     def _initialize_app(self):
         if self._is_ready_to_initialize:
             self._add_url_rules_to_app()
@@ -153,12 +117,14 @@ class WhiskeyInitializer:
             self._app_initialized = True
 
     def start_app(self):
-        self.app = Flask(self.app_name)
+        self.app = Flask(self.app_name,
+                         static_folder=Path(self.resource_root, 'static'),
+                         template_folder=Path(self.resource_root, 'templates'))
         self._initialize_app()
         return self.app
 
 
-class WhiskeyCountdownInitializer(WhiskeyInitializer):
+class WhiskeyFlaskCountdownInitializer(WhiskeyFlaskInitializer):
     def __init__(self, countdown_class, **kwargs):
         self.countdown_class = countdown_class
         super().__init__(**kwargs)

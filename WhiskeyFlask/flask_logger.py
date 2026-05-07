@@ -4,12 +4,15 @@ from re import sub
 from logging import Logger, getLogger, INFO, Formatter, LogRecord
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Union
 
 from EasyLoggerAJM.easy_logger import EasyLogger
-from EasyLoggerAJM.logger_parts import ColorizedFormatter
 
-from WhiskeyFlask import DEFAULT_FLASK_APP_NAME, DEFAULT_PROJECT_ROOT
+from WhiskeyCountdown import WhiskeyLogger
+from WhiskeyFlask import DEFAULT_FLASK_APP_NAME
+
+
+class WhiskeyFlaskLogger(WhiskeyLogger):
+    _PROJECT_NAME = ''.join([x.capitalize() for x in DEFAULT_FLASK_APP_NAME.split('_')])
 
 
 class WerkzeugFileFormatter(Formatter):
@@ -65,20 +68,6 @@ class WerkzeugFileFormatter(Formatter):
         return ''.join(filtered_msg_list)
 
 
-class WhiskeyLogger(EasyLogger):
-    DEFAULT_LOG_SPEC = 'hourly'
-    _PROJECT_NAME = ''.join([x.capitalize() for x in DEFAULT_FLASK_APP_NAME.split('_')])
-    ROOT_LOG_LOCATION_DEFAULT = Path(DEFAULT_PROJECT_ROOT.parent, 'logs')
-
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('log_spec', self.__class__.DEFAULT_LOG_SPEC)
-        kwargs.setdefault('show_warning_logs_in_console', True)
-        super().__init__(*args, **kwargs)
-
-    def __call__(self) -> Logger:
-        return self.logger
-
-
 class WerkzeugLogger(EasyLogger):
     LOG_LEVEL_TO_STREAM = INFO
     DEFAULT_LOG_SPEC = WhiskeyLogger.DEFAULT_LOG_SPEC
@@ -108,7 +97,7 @@ class WerkzeugLogger(EasyLogger):
     def make_file_handlers(self, *args, **kwargs):
         ...
 
-    def _setup_formatters(self, **kwargs) -> (Formatter, Union[ColorizedFormatter, Formatter]):
+    def _setup_formatters(self, **kwargs):
         kwargs.setdefault('formatter', WerkzeugFileFormatter())
         return super()._setup_formatters(**kwargs)
 

@@ -1,16 +1,13 @@
-from pathlib import Path
-
-DEFAULT_PROJECT_ROOT = Path(__file__).parent
 DEFAULT_FLASK_APP_NAME = 'whiskey_flask'
 
-from WhiskeyFlask.whiskey_logger import WhiskeyLogger, WerkzeugLogger
+from WhiskeyFlask.flask_logger import WerkzeugLogger, WhiskeyFlaskLogger
 from WhiskeyFlask.error_handlers import ErrorHandlers
-from WhiskeyFlask.custom_errors import FlaskAppInitializationError, InvalidProjectRootError
+from WhiskeyFlask.custom_errors import FlaskAppInitializationError
 from WhiskeyFlask.pages import HomePage
-from WhiskeyFlask.initializer import _WhiskeyCli, WhiskeyInitializer, WhiskeyCountdownInitializer
+from WhiskeyFlask.initializer import _WhiskeyFlaskCli, WhiskeyFlaskInitializer, WhiskeyFlaskCountdownInitializer
 from WhiskeyFlask.whiskey_flask import WhiskeyFlask, WhiskeyFlaskCountdown
 
-__all__ = ['DEFAULT_FLASK_APP_NAME', 'DEFAULT_PROJECT_ROOT', 'ErrorHandlers',
-           'FlaskAppInitializationError', 'InvalidProjectRootError',
-           'HomePage', '_WhiskeyCli', 'WhiskeyInitializer', 'WhiskeyCountdownInitializer',
-           'WhiskeyFlask', 'WhiskeyFlaskCountdown', 'WhiskeyLogger', 'WerkzeugLogger']
+__all__ = ['DEFAULT_FLASK_APP_NAME', 'ErrorHandlers',
+           'FlaskAppInitializationError',
+           'HomePage', '_WhiskeyFlaskCli', 'WhiskeyFlaskInitializer', 'WhiskeyFlaskCountdownInitializer',
+           'WhiskeyFlask', 'WhiskeyFlaskCountdown', 'WerkzeugLogger', 'WhiskeyFlaskLogger']
