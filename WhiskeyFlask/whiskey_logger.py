@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Union
 
 from EasyLoggerAJM.easy_logger import EasyLogger
-from EasyLoggerAJM.logger_parts import ColorizedFormatter
 
 from WhiskeyFlask import DEFAULT_FLASK_APP_NAME, DEFAULT_PROJECT_ROOT
 
@@ -108,7 +107,7 @@ class WerkzeugLogger(EasyLogger):
     def make_file_handlers(self, *args, **kwargs):
         ...
 
-    def _setup_formatters(self, **kwargs) -> (Formatter, Union[ColorizedFormatter, Formatter]):
+    def _setup_formatters(self, **kwargs):
         kwargs.setdefault('formatter', WerkzeugFileFormatter())
         return super()._setup_formatters(**kwargs)
 

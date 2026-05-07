@@ -59,6 +59,12 @@ class _WhiskeyCli:
             help=f"Port to listen on (default: {cls.DEFAULT_PORT})",
         )
         parser.add_argument(
+            "-e",
+            "--early_arrival",
+            action="store_true",
+            help="Use Early Arrival Countdown",
+        )
+        parser.add_argument(
             "-d",
             "--debug",
             action="store_true",

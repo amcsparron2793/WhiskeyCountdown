@@ -3,6 +3,7 @@ whiskey_flask.py
 
 """
 from WhiskeyCountdown import WhiskeyCountdown
+from WhiskeyCountdown.whiskey_countdown import EarlyWhiskeyCountdown
 from WhiskeyFlask import _WhiskeyCli, WhiskeyInitializer, WhiskeyCountdownInitializer
 
 
@@ -32,7 +33,7 @@ class WhiskeyFlask(WhiskeyInitializer, _WhiskeyCli):
             args.host = cls._get_default_host(args.debug)
             print(f"DEBUG MODE: Using {args.host} as the host")
 
-        return cls(host=args.host, port=args.port, debug=args.debug)
+        return cls(host=args.host, port=args.port, debug=args.debug, early_arrival=args.early_arrival)
 
     def run(self, *args, **kwargs):
         kwargs.setdefault('host', self.host)
@@ -43,9 +44,18 @@ class WhiskeyFlask(WhiskeyInitializer, _WhiskeyCli):
 
 
 class WhiskeyFlaskCountdown(WhiskeyCountdownInitializer, WhiskeyFlask):
-    ...
+    def __init__(self, **kwargs):
+        self.countdown_class = kwargs.get('countdown_class', None)
+        self.early_arrival = kwargs.get('early_arrival', False)
+        if self.early_arrival:
+            self.countdown_class = EarlyWhiskeyCountdown
+        else:
+            self.countdown_class = WhiskeyCountdown
+
+        kwargs.setdefault('countdown_class', self.countdown_class)
+        super().__init__(**kwargs)
 
 
 if __name__ == '__main__':
-    wfc = WhiskeyFlaskCountdown(countdown_class=WhiskeyCountdown)
+    wfc = WhiskeyFlaskCountdown()
     wfc.run()
