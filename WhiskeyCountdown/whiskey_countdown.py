@@ -1,4 +1,3 @@
-import datetime
 from os import system
 from time import sleep
 
@@ -53,26 +52,26 @@ class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTStrings):
 
 
 class EarlyWhiskeyCountdown(WhiskeyCountdown):
-    DAY = 14
+    END_DAY = 14
     TIME_TO_STRING = "Time to EARLY arrival: "
 
 
 class WhiskeyLeaveTime(WhiskeyCountdown):
-    HOUR = 3
+    END_HOUR = 3
     TIME_TO_STRING = "Time to leave: "
 
     @classmethod
     def _initialize_countdown_class(cls, **kwargs):
         early_leave = kwargs.get('early_leave', False)
         if early_leave:
-            return WhiskeyEarlyLeaveTime(**kwargs)
+            return EarlyWhiskeyLeaveTime(**kwargs)
         else:
             return cls(**kwargs)
 
 
-class WhiskeyEarlyLeaveTime(WhiskeyLeaveTime):
-    DAY = 14
-    HOUR = 3
+class EarlyWhiskeyLeaveTime(WhiskeyLeaveTime):
+    END_DAY = 14
+    END_HOUR = 3
     TIME_TO_STRING = "Time to EARLY leave: "
 
 

@@ -2,14 +2,14 @@ import datetime
 
 
 class TTCalculations:
-    YEAR = 2026
-    MONTH = 5
-    DAY = 15
-    HOUR = 17
+    END_YEAR = 2026
+    END_MONTH = 5
+    END_DAY = 15
+    END_HOUR = 17
 
     @classmethod
     def _get_approx_datetime(cls):
-        return datetime.datetime(cls.YEAR, cls.MONTH, cls.DAY, cls.HOUR)
+        return datetime.datetime(cls.END_YEAR, cls.END_MONTH, cls.END_DAY, cls.END_HOUR)
 
     @property
     def time_to_datetime(self) -> datetime.timedelta:
