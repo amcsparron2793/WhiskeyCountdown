@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from flask import Flask
+from flask import Flask, jsonify, request
 from jinja2 import TemplateNotFound
 
 # noinspection PyProtectedMember
@@ -136,3 +136,20 @@ class WhiskeyFlaskCountdownInitializer(WhiskeyFlaskInitializer):
         kwargs.setdefault('countdown_class', self.countdown_class)
         home_page = WhiskeyHomePage(**kwargs)
         return home_page
+
+    def _add_url_rules_to_app(self):
+        super()._add_url_rules_to_app()
+        self.app.add_url_rule('/api/countdown', 'api_countdown', self.api_countdown)
+
+    def api_countdown(self):
+        early_arrival = request.args.get('early_arrival', 'false').lower() == 'true'
+        countdown = self.countdown_class._initialize_countdown_class(
+            early_arrival=early_arrival,
+            debug=self.debug_mode,
+        )
+
+        return jsonify({
+            'title': countdown.countdown_title_string,
+            'countdown': countdown.countdown_string,
+            'full_text': countdown.final_countdown_string,
+        })
