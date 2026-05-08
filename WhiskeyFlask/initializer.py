@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from flask import Flask
+from flask import Flask, jsonify, request
 from jinja2 import TemplateNotFound
 
 # noinspection PyProtectedMember
@@ -8,7 +8,7 @@ from WhiskeyCountdown import _WhiskeyCli, WhiskeyInitializer
 from WhiskeyFlask import (DEFAULT_FLASK_APP_NAME,
                           WhiskeyFlaskLogger,
                           WerkzeugLogger,
-                          HomePage, ErrorHandlers,
+                          HomePage, WhiskeyHomePage, ErrorHandlers,
                           FlaskAppInitializationError)
 
 
@@ -128,9 +128,28 @@ class WhiskeyFlaskCountdownInitializer(WhiskeyFlaskInitializer):
     def __init__(self, countdown_class, **kwargs):
         self.countdown_class = countdown_class
         super().__init__(**kwargs)
+        self.logger.name = self.__class__.__name__
+        self.logger.debug(f'logger name set to {self.logger.name}')
 
     def _initialize_pages(self, **kwargs):
         kwargs.setdefault('debug', self.debug_mode)
         kwargs.setdefault('countdown_class', self.countdown_class)
-        home_page = HomePage(**kwargs)
+        home_page = WhiskeyHomePage(**kwargs)
         return home_page
+
+    def _add_url_rules_to_app(self):
+        super()._add_url_rules_to_app()
+        self.app.add_url_rule('/api/countdown', 'api_countdown', self.api_countdown)
+
+    def api_countdown(self):
+        early_arrival = request.args.get('early_arrival', 'false').lower() == 'true'
+        countdown = self.countdown_class._initialize_countdown_class(
+            early_arrival=early_arrival,
+            debug=self.debug_mode,
+        )
+
+        return jsonify({
+            'title': countdown.countdown_title_string,
+            'countdown': countdown.countdown_string,
+            'full_text': countdown.final_countdown_string,
+        })
