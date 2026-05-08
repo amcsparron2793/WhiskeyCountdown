@@ -69,9 +69,7 @@ class WhiskeyLeaveTime(WhiskeyCountdown):
             return cls(**kwargs)
 
 
-class EarlyWhiskeyLeaveTime(WhiskeyLeaveTime):
-    END_DAY = 14
-    END_HOUR = 3
+class EarlyWhiskeyLeaveTime(EarlyWhiskeyCountdown, WhiskeyLeaveTime):
     TIME_TO_STRING = "Time to EARLY leave: "
 
 
