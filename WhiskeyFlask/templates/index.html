@@ -7,7 +7,7 @@
               href="{{ url_for('static', filename='spin_the_bottle.css') }}">
         <title>Whiskey Countdown</title>
     </head>
-    <body data-seconds-remaining="{{ countdown.time_to_arrival_datetime.total_seconds() | int }}">
+    <body data-seconds-remaining="{{ countdown.time_to_datetime.total_seconds() | int }}">
         <h1>{{ countdown.countdown_title_string }}</h1>
         <div id="countdown" class="countdown_text">
             {{ countdown.countdown_string }}
