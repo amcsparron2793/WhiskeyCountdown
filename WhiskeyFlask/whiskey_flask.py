@@ -4,18 +4,19 @@ whiskey_flask.py
 """
 from WhiskeyCountdown import WhiskeyCountdown, EarlyWhiskeyCountdown
 from WhiskeyFlask import _WhiskeyFlaskCli, WhiskeyFlaskInitializer, WhiskeyFlaskCountdownInitializer
+from WhiskeyFlask import FlaskConfig
 
 
 class WhiskeyFlask(WhiskeyFlaskInitializer, _WhiskeyFlaskCli):
-    TEST_DEFAULT_HOST = '127.0.0.1'
-    DEFAULT_HOST = '127.0.0.1'
-    DEFAULT_PORT = 5000
+    TEST_DEFAULT_HOST = FlaskConfig.TEST_HOST
+    DEFAULT_HOST = FlaskConfig.HOST
+    DEFAULT_PORT = FlaskConfig.PORT
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.logger.name = self.__class__.__name__
 
-        self.debug_mode = kwargs.get('debug', False)
+        self.debug_mode = kwargs.get('debug', FlaskConfig.DEBUG)
         self.host = kwargs.get('host', self._get_default_host(self.debug_mode))
         self.port = kwargs.get('port', self.__class__.DEFAULT_PORT)
         self.logger.info(f'host set to {self.host} on port {self.port} '
