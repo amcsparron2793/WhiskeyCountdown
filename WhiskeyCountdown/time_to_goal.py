@@ -1,11 +1,12 @@
 import datetime
+from WhiskeyCountdown.config import Config
 
 
 class TTCalculations:
-    END_YEAR = 2026
-    END_MONTH = 5
-    END_DAY = 15
-    END_HOUR = 17
+    END_YEAR = Config.END_YEAR
+    END_MONTH = Config.END_MONTH
+    END_DAY = Config.END_DAY
+    END_HOUR = Config.END_HOUR
 
     @classmethod
     def _get_approx_datetime(cls):
@@ -33,11 +34,11 @@ class TTCalculations:
 
 
 class TTStrings(TTCalculations):
-    TIME_TO_STRING = "Time to arrival: "
-    DAYS = "Days"
-    HOURS = "Hours"
-    MINUTES = "Minutes"
-    SECONDS = "Seconds"
+    TIME_TO_STRING = Config.TIME_TO_STRING
+    DAYS = Config.DAYS_LABEL
+    HOURS = Config.HOURS_LABEL
+    MINUTES = Config.MINUTES_LABEL
+    SECONDS = Config.SECONDS_LABEL
 
     @property
     def days_string(self):
