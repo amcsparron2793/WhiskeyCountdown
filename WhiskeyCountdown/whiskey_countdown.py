@@ -2,6 +2,7 @@ from os import system
 from time import sleep
 
 from WhiskeyCountdown import TTStrings, _WhiskeyCli, WhiskeyInitializer
+from WhiskeyCountdown import Config
 
 
 class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTStrings):
@@ -52,13 +53,13 @@ class WhiskeyCountdown(WhiskeyInitializer, _WhiskeyCli, TTStrings):
 
 
 class EarlyWhiskeyCountdown(WhiskeyCountdown):
-    END_DAY = 14
-    TIME_TO_STRING = "Time to EARLY arrival: "
+    END_DAY = Config.EARLY_END_DAY
+    TIME_TO_STRING = Config.EARLY_TIME_TO_STRING
 
 
 class WhiskeyLeaveTime(WhiskeyCountdown):
-    END_HOUR = 3
-    TIME_TO_STRING = "Time to leave: "
+    END_HOUR = Config.LEAVE_HOUR
+    TIME_TO_STRING = Config.LEAVE_TIME_TO_STRING
 
     @classmethod
     def _initialize_countdown_class(cls, **kwargs):
@@ -70,7 +71,7 @@ class WhiskeyLeaveTime(WhiskeyCountdown):
 
 
 class EarlyWhiskeyLeaveTime(EarlyWhiskeyCountdown, WhiskeyLeaveTime):
-    TIME_TO_STRING = "Time to EARLY leave: "
+    TIME_TO_STRING = Config.EARLY_LEAVE_TIME_TO_STRING
 
 
 if __name__ == "__main__":

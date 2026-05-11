@@ -1,0 +1,27 @@
+# Target date configuration
+target_date:
+  year: 2026
+  month: 5
+  day: 15
+  hour: 17
+
+# Early arrival configuration
+early_arrival:
+  day: 14
+
+leave:
+  hour: 3
+
+
+# String constants
+strings:
+  arrival: "Time to arrival: "
+  early_arrival: "Time to EARLY arrival: "
+  leave: "Time to leave: "
+  early_leave: "Time to EARLY leave: "
+  labels:
+    days: "Days"
+    hours: "Hours"
+    minutes: "Minutes"
+    seconds: "Seconds"
+
