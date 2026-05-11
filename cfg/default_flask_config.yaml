@@ -1,6 +1,0 @@
-network:
-  host: 127.0.0.1
-  port: 5000
-  test_host: 127.0.0.1
-  test_port: 5001
-  debug: False
